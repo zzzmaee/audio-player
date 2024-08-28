@@ -1,0 +1,34 @@
+<div class="container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" multiTemplateDataRows>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID</th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Наименование звука</th>
+      <td mat-cell *matCellDef="let element"> {{ element.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fileName">
+      <th mat-header-cell *matHeaderCellDef> Имя файла звукозаписи</th>
+      <td mat-cell *matCellDef="let element"> {{ element.fileName }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selectAudio(row)"
+        [class.selected]="selectedAudio === row">
+    </tr>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div *ngIf="selectedAudio === element" class="audio-player">
+          <audio controls [src]="element.fileUrl" autoplay style="width: 100%;"></audio>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail'];" [hidden]="selectedAudio !== row"></tr>
+  </table>
+</div>
